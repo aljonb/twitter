@@ -12,10 +12,16 @@ const options = {
     strict: true,
     deprecationErrors: true,
   },
-  connectTimeoutMS: 30000, // Increased from 15000
-  socketTimeoutMS: 30000, // Increased from 15000
+  connectTimeoutMS: 30000,
+  socketTimeoutMS: 30000,
   maxPoolSize: 10,
-  minPoolSize: 5
+  minPoolSize: 5,
+  ssl: true,
+  tls: true,
+  tlsAllowInvalidCertificates: false,
+  tlsInsecure: false,
+  minTlsVersion: 'TLSv1.2',
+  maxTlsVersion: 'TLSv1.3'
 };
 
 const client = new MongoClient(uri, options);
