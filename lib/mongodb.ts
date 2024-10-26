@@ -16,8 +16,7 @@ const options = {
   socketTimeoutMS: 30000,
   maxPoolSize: 10,
   minPoolSize: 5,
-  minTlsVersion: 'TLS1_2', // Ensures TLS 1.2 is used
-  // maxTlsVersion: 'TLS1_3', // Optional: Specify if needed
+  tls: true,
   replicaSet: 'atlas-12mtjl-shard-0',
   authSource: 'admin',
   retryWrites: true,
