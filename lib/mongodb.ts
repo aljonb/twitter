@@ -16,12 +16,11 @@ const options = {
   socketTimeoutMS: 30000,
   maxPoolSize: 10,
   minPoolSize: 5,
-  ssl: true,
   tls: true,
-  tlsAllowInvalidCertificates: false,
-  tlsInsecure: false,
-  minTlsVersion: 'TLSv1.2',
-  maxTlsVersion: 'TLSv1.3'
+  tlsCAFile: undefined,
+  replicaSet: 'atlas-12mtjl-shard-0',
+  authSource: 'admin',
+  retryWrites: true
 };
 
 const client = new MongoClient(uri, options);
