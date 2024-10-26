@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     // Add timeout promise
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Database operation timed out')), 25000)
+      setTimeout(() => reject(new Error('Database operation timed out')), 15000)
     );
 
     const dbOperation = db.collection("tweets").insertOne({

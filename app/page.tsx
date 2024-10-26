@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Tweet {
   _id: string;
@@ -11,6 +12,7 @@ interface Tweet {
 export default function Home() {
   const [tweet, setTweet] = useState('');
   const [tweets, setTweets] = useState<Tweet[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     fetchTweets();
@@ -18,8 +20,9 @@ export default function Home() {
 
   const fetchTweets = async () => {
     try {
-      // Use absolute URL
-      const response = await fetch(`${window.location.origin}/api/tweets`);
+      const response = await fetch('/api/tweets', {
+        cache: 'no-store'  // Ensures fresh data
+      });
       if (response.ok) {
         const data = await response.json();
         setTweets(data);
@@ -32,22 +35,40 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (tweet.trim()) {
-      try {
-        // Use absolute URL
-        const response = await fetch(`${window.location.origin}/api/tweets`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ content: tweet }),
-        });
+      let attempts = 0;
+      const maxAttempts = 3;
 
-        if (response.ok) {
-          setTweet('');
-          fetchTweets(); // Refresh the tweets list
+      while (attempts < maxAttempts) {
+        try {
+          const response = await fetch('/api/tweets', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: tweet }),
+          });
+
+          if (response.ok) {
+            setTweet('');
+            router.refresh();
+            await fetchTweets();
+            break;
+          } else if (response.status === 504) {
+            attempts++;
+            if (attempts === maxAttempts) {
+              throw new Error('Operation timed out after multiple attempts');
+            }
+            // Wait for 1 second before retrying
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        } catch (error) {
+          console.error('Error saving tweet:', error);
+          if (attempts === maxAttempts) {
+            alert('Failed to save tweet. Please try again later.');
+          }
         }
-      } catch (error) {
-        console.error('Error saving tweet:', error);
       }
     }
   };

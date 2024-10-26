@@ -6,16 +6,19 @@ if (!process.env.MONGODB_URI) {
 
 const uri = process.env.MONGODB_URI;
 
-const client = new MongoClient(uri, {
+const options = {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
   },
-  // Add these timeout settings
-  connectTimeoutMS: 30000,
-  socketTimeoutMS: 30000,
-});
+  connectTimeoutMS: 15000,
+  socketTimeoutMS: 15000,
+  maxPoolSize: 10,
+  minPoolSize: 5
+};
+
+const client = new MongoClient(uri, options);
 
 let clientPromise: Promise<MongoClient>;
 
