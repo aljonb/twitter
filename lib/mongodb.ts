@@ -12,8 +12,8 @@ const options = {
     strict: true,
     deprecationErrors: true,
   },
-  connectTimeoutMS: 15000,
-  socketTimeoutMS: 15000,
+  connectTimeoutMS: 30000, // Increased from 15000
+  socketTimeoutMS: 30000, // Increased from 15000
   maxPoolSize: 10,
   minPoolSize: 5
 };
