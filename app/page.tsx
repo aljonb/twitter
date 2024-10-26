@@ -81,7 +81,7 @@ export default function Home() {
         <textarea
           value={tweet}
           onChange={(e) => setTweet(e.target.value)}
-          className="w-full p-2 border rounded-md resize-none"
+          className="w-full p-2 border rounded-md resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           rows={3}
           placeholder="What's happening?"
           maxLength={280}
