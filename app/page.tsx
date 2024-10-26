@@ -18,7 +18,8 @@ export default function Home() {
 
   const fetchTweets = async () => {
     try {
-      const response = await fetch('/api/tweets');
+      // Use absolute URL
+      const response = await fetch(`${window.location.origin}/api/tweets`);
       if (response.ok) {
         const data = await response.json();
         setTweets(data);
@@ -32,7 +33,8 @@ export default function Home() {
     e.preventDefault();
     if (tweet.trim()) {
       try {
-        const response = await fetch('/api/tweets', {
+        // Use absolute URL
+        const response = await fetch(`${window.location.origin}/api/tweets`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
