@@ -97,7 +97,7 @@ export default function Home() {
       <div>
         <h2 className="text-xl font-semibold mb-2">Recent Tweets</h2>
         {tweets.map((t) => (
-          <div key={t._id} className="bg-gray-100 p-3 rounded-md mb-2">
+          <div key={t._id} className="bg-gray-100 dark:bg-gray-800 dark:text-gray-200 p-3 rounded-md mb-2">
             {t.content}
           </div>
         ))}
