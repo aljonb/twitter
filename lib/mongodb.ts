@@ -13,8 +13,8 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
   // Add these timeout settings
-  connectTimeoutMS: 10000,
-  socketTimeoutMS: 10000,
+  connectTimeoutMS: 30000,
+  socketTimeoutMS: 30000,
 });
 
 let clientPromise: Promise<MongoClient>;
