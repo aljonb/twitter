@@ -16,11 +16,11 @@ const options = {
   socketTimeoutMS: 30000,
   maxPoolSize: 10,
   minPoolSize: 5,
-  tls: true,
-  tlsCAFile: undefined,
+  minTlsVersion: 'TLS1_2', // Ensures TLS 1.2 is used
+  // maxTlsVersion: 'TLS1_3', // Optional: Specify if needed
   replicaSet: 'atlas-12mtjl-shard-0',
   authSource: 'admin',
-  retryWrites: true
+  retryWrites: true,
 };
 
 const client = new MongoClient(uri, options);
@@ -28,8 +28,7 @@ const client = new MongoClient(uri, options);
 let clientPromise: Promise<MongoClient>;
 
 if (process.env.NODE_ENV === 'development') {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  // In development mode, use a global variable to preserve the value across module reloads
   const globalWithMongo = global as typeof globalThis & {
     _mongoClientPromise?: Promise<MongoClient>
   }
@@ -39,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
   }
   clientPromise = globalWithMongo._mongoClientPromise
 } else {
-  // In production mode, it's best to not use a global variable.
+  // In production mode, don't use a global variable
   clientPromise = client.connect()
 }
 
