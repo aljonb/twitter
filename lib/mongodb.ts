@@ -11,7 +11,10 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
+  // Add these timeout settings
+  connectTimeoutMS: 10000,
+  socketTimeoutMS: 10000,
 });
 
 let clientPromise: Promise<MongoClient>;
